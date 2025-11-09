@@ -1,5 +1,5 @@
 // -------------------------
-// Rock Collector - Phase 2
+// Rock Collector - Phase 3.5 (with quantities)
 // -------------------------
 
 // Rock database
@@ -11,15 +11,15 @@ const ROCKS = [
   { name: "Mystic Shard", rarity: "Legendary" }
 ];
 
-// Load existing collection or start new
-let collection = JSON.parse(localStorage.getItem("collection")) || [];
+// Load collection (object with rockName: { rarity, count })
+let collection = JSON.parse(localStorage.getItem("collection")) || {};
 
-// Save current collection
+// Save collection
 function saveCollection() {
   localStorage.setItem("collection", JSON.stringify(collection));
 }
 
-// Weighted random selection by rarity
+// Weighted random selection
 function getRandomRock() {
   const weights = {
     Common: 0.6,
@@ -40,39 +40,94 @@ function getRandomRock() {
   }
 }
 
-// Add a new rock to collection and update display
+// Collect a new rock
 function collectRock() {
   const rock = getRandomRock();
-  collection.push(rock);
+
+  // If already have it, increase count
+  if (collection[rock.name]) {
+    collection[rock.name].count += 1;
+  } else {
+    collection[rock.name] = { rarity: rock.rarity, count: 1 };
+  }
+
   saveCollection();
 
   const output = document.getElementById("output");
-  output.textContent = `You found: ${rock.name} (${rock.rarity})!`;
+  output.textContent = rarityMessage(rock);
 
   updateCollectionDisplay();
+  updateTopRocks();
 }
 
-// Show the full collection
+// Feedback flavor
+function rarityMessage(rock) {
+  switch (rock.rarity) {
+    case "Common":
+      return `You found a ${rock.name}.`;
+    case "Uncommon":
+      return `Nice! You uncovered an ${rock.name}.`;
+    case "Rare":
+      return `✨ A rare discovery: ${rock.name}!`;
+    case "Legendary":
+      return `🌟 Incredible! You unearthed the ${rock.name}!`;
+    default:
+      return `You found: ${rock.name}.`;
+  }
+}
+
+// Display full collection with quantities
 function updateCollectionDisplay() {
   const display = document.getElementById("collection");
   display.innerHTML = "<h3>Your Collection</h3>";
 
-  if (collection.length === 0) {
+  const entries = Object.entries(collection);
+  if (entries.length === 0) {
     display.innerHTML += "<p>No rocks collected yet.</p>";
     return;
   }
 
   const list = document.createElement("ul");
-  collection.forEach(r => {
+  entries.forEach(([name, data]) => {
     const item = document.createElement("li");
-    item.textContent = `${r.name} (${r.rarity})`;
+    item.textContent = `${name} (${data.rarity}) — ${data.count}`;
     list.appendChild(item);
   });
   display.appendChild(list);
 }
 
-// Event listeners
-document.getElementById("collectBtn").addEventListener("click", collectRock);
+// Show top 5 rocks by rarity importance
+function updateTopRocks() {
+  const rarityOrder = ["Common", "Uncommon", "Rare", "Legendary"];
+  const topDiv = document.getElementById("topRocks");
 
-// Initial display
+  const entries = Object.entries(collection);
+  if (entries.length === 0) {
+    topDiv.innerHTML = "";
+    return;
+  }
+
+  // Sort by rarity and count
+  const ranked = entries.sort((a, b) => {
+    const rarityDiff =
+      rarityOrder.indexOf(a[1].rarity) - rarityOrder.indexOf(b[1].rarity);
+    if (rarityDiff !== 0) return rarityDiff;
+    return a[1].count - b[1].count;
+  });
+
+  const topFive = ranked.slice(-5).reverse();
+  topDiv.innerHTML = "<h3>Top Finds</h3>";
+
+  const list = document.createElement("ol");
+  topFive.forEach(([name, data]) => {
+    const item = document.createElement("li");
+    item.textContent = `${name} (${data.rarity}) — ${data.count}`;
+    list.appendChild(item);
+  });
+  topDiv.appendChild(list);
+}
+
+// Init
+document.getElementById("collectBtn").addEventListener("click", collectRock);
 updateCollectionDisplay();
+updateTopRocks();
