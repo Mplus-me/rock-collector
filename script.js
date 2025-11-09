@@ -130,8 +130,8 @@ function getRandomRock() {
     Common: 0.5,
     Uncommon: 0.25,
     Rare: 0.15,
-    Legendary: 0.08,
-    "Ultra-Rare": 0.02
+    "Ultra-Rare": 0.08,
+    Legendary: 0.02,
   };
 
   const random = Math.random();
