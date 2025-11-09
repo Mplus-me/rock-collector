@@ -115,7 +115,8 @@ const ROCKS = [
   { name: "The First Rock", rarity: "Legendary", description: "According to legend, this is the very first rock that ever existed. Probably not though." }
 ];
 
-// Load collection (object with rockName: { rarity, count })
+
+// Load collection (object with rockName: { rarity, count, description })
 let collection = JSON.parse(localStorage.getItem("collection")) || {};
 
 // Save collection
@@ -123,13 +124,14 @@ function saveCollection() {
   localStorage.setItem("collection", JSON.stringify(collection));
 }
 
-// Weighted random selection
+// Weighted random selection with Ultra-Rare
 function getRandomRock() {
   const weights = {
-    Common: 0.6,
+    Common: 0.5,
     Uncommon: 0.25,
-    Rare: 0.1,
-    Legendary: 0.05
+    Rare: 0.15,
+    Legendary: 0.08,
+    "Ultra-Rare": 0.02
   };
 
   const random = Math.random();
@@ -152,7 +154,7 @@ function collectRock() {
   if (collection[rock.name]) {
     collection[rock.name].count += 1;
   } else {
-    collection[rock.name] = { rarity: rock.rarity, count: 1 };
+    collection[rock.name] = { rarity: rock.rarity, count: 1, description: rock.description };
   }
 
   saveCollection();
@@ -175,12 +177,14 @@ function rarityMessage(rock) {
       return `✨ A rare discovery: ${rock.name}!`;
     case "Legendary":
       return `🌟 Incredible! You unearthed the ${rock.name}!`;
+    case "Ultra-Rare":
+      return `💎 Ultra-Rare find: ${rock.name}!`;
     default:
       return `You found: ${rock.name}.`;
   }
 }
 
-// Display full collection with quantities
+// Display full collection with quantities and tooltips
 function updateCollectionDisplay() {
   const display = document.getElementById("collection");
   display.innerHTML = "<h3>Your Collection</h3>";
@@ -195,6 +199,7 @@ function updateCollectionDisplay() {
   entries.forEach(([name, data]) => {
     const item = document.createElement("li");
     item.textContent = `${name} (${data.rarity}) — ${data.count}`;
+    if (data.description) item.title = data.description; // Tooltip on hover
     list.appendChild(item);
   });
   display.appendChild(list);
@@ -202,7 +207,7 @@ function updateCollectionDisplay() {
 
 // Show top 5 rocks by rarity importance
 function updateTopRocks() {
-  const rarityOrder = ["Common", "Uncommon", "Rare", "Legendary"];
+  const rarityOrder = ["Common", "Uncommon", "Rare", "Legendary", "Ultra-Rare"];
   const topDiv = document.getElementById("topRocks");
 
   const entries = Object.entries(collection);
@@ -226,6 +231,7 @@ function updateTopRocks() {
   topFive.forEach(([name, data]) => {
     const item = document.createElement("li");
     item.textContent = `${name} (${data.rarity}) — ${data.count}`;
+    if (data.description) item.title = data.description; // Tooltip on hover
     list.appendChild(item);
   });
   topDiv.appendChild(list);
