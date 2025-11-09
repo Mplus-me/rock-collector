@@ -72,6 +72,37 @@ ol {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  /* Scrollable behavior */
+  max-height: 400px;          /* maximum height */
+  overflow-y: auto;           /* vertical scroll if content exceeds height */
+  position: relative;          /* needed for the gradient overlay */
+}
+
+/* Gradient overlay at bottom of panel */
+#topRocks::after,
+#collection::after {
+  content: '';
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;               /* height of gradient fade */
+  pointer-events: none;       /* lets you still scroll */
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+  display: block;
+}
+
+/* Optional scrollbar styling */
+#topRocks::-webkit-scrollbar,
+#collection::-webkit-scrollbar {
+  width: 8px;
+}
+
+#topRocks::-webkit-scrollbar-thumb,
+#collection::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
 }
 
 /* Text formatting inside */
@@ -92,4 +123,10 @@ ol {
     flex-direction: column;
     align-items: center;
   }
+}
+
+ul, ol {
+  padding-left: 20px;
+  text-align: left;
+  margin: 0;
 }
