@@ -29,8 +29,10 @@ button:hover {
 }
 
 ul {
-  list-style: none;
-  padding: 0;
+  list-style: none;   /* removes bullets */
+  padding: 0;         /* removes default padding */
+  margin: 0;          /* removes default margin */
+  text-align: center; /* centers the rock names */
 }
 
 li {
