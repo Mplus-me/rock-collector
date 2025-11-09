@@ -54,3 +54,42 @@ ol {
   padding-left: 20px;
   text-align: left;
 }
+
+#game-layout {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+#topRocks,
+#collection {
+  flex: 1 1 300px;
+  max-width: 45%;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Text formatting inside */
+#topRocks h3,
+#collection h3 {
+  margin-top: 0;
+  color: #444;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 700px) {
+  #topRocks,
+  #collection {
+    max-width: 90%;
+  }
+
+  #game-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+}
