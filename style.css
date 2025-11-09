@@ -19,9 +19,8 @@ button:hover {
 }
 
 #collection {
-  margin-top: 20px;
-  text-align: left;
   display: inline-block;
+  margin-top: 20px;
   background: white;
   padding: 15px 20px;
   border-radius: 8px;
@@ -29,10 +28,10 @@ button:hover {
 }
 
 ul {
-  list-style: none;   /* removes bullets */
-  padding: 0;         /* removes default padding */
-  margin: 0;          /* removes default margin */
-  text-align: center; /* centers the rock names */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
 }
 
 li {
