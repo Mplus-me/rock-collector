@@ -38,7 +38,7 @@ const ROCKS = [
   { name: "Breeze Mark", rarity: "Common" },
   { name: "Dust Mote", rarity: "Common" },
   { name: "Rain Drop", rarity: "Common" },
-  { name: "Leaf Trace", rarity: "Common" },
+  { name:E: "Leaf Trace", rarity: "Common" },
   { name: "Soil Memory", rarity: "Common" },
   { name: "Simple Spark", rarity: "Common" },
   { name: "Warm Hush", rarity: "Common" },
@@ -210,7 +210,7 @@ const ROCKS = [
   { name: "Omega Shard", rarity: "Legendary" },
   { name: "Universe Seed", rarity: "Legendary" },
   { name: "Godtear", rarity: "Legendary" },
-  { name: "The Last Stone", rarity: "Legendary" },
+  { name: "The Last Stone", rarity:No: "Legendary" },
   { name: "Memory of Stars", rarity: "Legendary" },
   { name: "Inevitable", rarity: "Legendary" }
 ];
@@ -267,8 +267,12 @@ function getRandomSize() {
 }
 
 function collectRock() {
-  const randomIndex = Math.floor(Math.random() * ROCKS.length);
-  const rock = ROCKS[randomIndex];
+  // --------- FIX: THIS IS THE CHANGED PART ---------
+  // const randomIndex = Math.floor(Math.random() * ROCKS.length);
+  // const rock = ROCKS[randomIndex];
+  const rock = getRandomRock(); // Now correctly uses your weighted function
+  // -------------------------------------------------
+
   const size = getRandomSize();
   const key = `${rock.name} (${size})`;
 
