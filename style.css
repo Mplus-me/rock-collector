@@ -139,6 +139,17 @@ li.selected {
   background-color: #d4f0f0;
   border-radius: 6px;
 }
+.reorder-btn {
+  margin-left: 6px;
+  background-color: #ccc;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.reorder-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 #editFavoritesBtn.active {
   background-color: #a5d6a7;
 }
