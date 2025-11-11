@@ -1,8 +1,7 @@
 // -------------------------
-// Rock Collector - Phase 4 (with favorites)
+// Rock Collector - Phase 4.5 (Favorites with Reordering)
 // -------------------------
 
-// Const sizes
 const SIZES = [
   { name: "Extra Small", weight: 5 },
   { name: "Small", weight: 25 },
@@ -11,14 +10,10 @@ const SIZES = [
   { name: "Extra Large", weight: 5 }
 ];
 
-// Load collection (object with rockName: { rarity, count })
 let collection = JSON.parse(localStorage.getItem("collection")) || {};
-
-// Favorites (array of rock keys)
 let topRocks = JSON.parse(localStorage.getItem("topRocks") || "[]");
 let editFavoritesMode = false;
 
-// Save collection and favorites
 function saveCollection() {
   localStorage.setItem("collection", JSON.stringify(collection));
 }
@@ -38,7 +33,6 @@ function getRandomRock() {
 
   const random = Math.random();
   let cumulative = 0;
-
   for (const rarity of Object.keys(weights)) {
     cumulative += weights[rarity];
     if (random <= cumulative) {
@@ -48,7 +42,6 @@ function getRandomRock() {
   }
 }
 
-// Size generation
 function getRandomSize() {
   const totalWeight = SIZES.reduce((sum, s) => sum + s.weight, 0);
   const rand = Math.random() * totalWeight;
@@ -59,7 +52,6 @@ function getRandomSize() {
   }
 }
 
-// Collect new rock
 function collectRock() {
   const randomIndex = Math.floor(Math.random() * ROCKS.length);
   const rock = ROCKS[randomIndex];
@@ -82,7 +74,7 @@ function collectRock() {
   updateTopRocks();
 }
 
-// Update full collection
+// Update collection display
 function updateCollectionDisplay() {
   const display = document.getElementById("collection");
   display.innerHTML = "<h3>Your Collection</h3>";
@@ -99,17 +91,10 @@ function updateCollectionDisplay() {
     const item = document.createElement("li");
     item.textContent = `${name} (${data.rarity}) — ${data.count}`;
 
-    // Highlight if it’s a favorite
     if (topRocks.includes(name)) item.classList.add("selected");
+    if (editFavoritesMode) item.classList.add("editable");
+    else item.classList.remove("editable");
 
-    // Edit mode visual cue
-    if (editFavoritesMode) {
-      item.classList.add("editable");
-    } else {
-      item.classList.remove("editable");
-    }
-
-    // Click to add/remove from favorites (only in edit mode)
     item.addEventListener("click", () => {
       if (!editFavoritesMode) return;
 
@@ -130,7 +115,7 @@ function updateCollectionDisplay() {
   display.appendChild(list);
 }
 
-// Update Top Rocks display
+// Update Top Rocks
 function updateTopRocks() {
   const topDiv = document.getElementById("topRocks");
   topDiv.innerHTML = "";
@@ -141,24 +126,53 @@ function updateTopRocks() {
   }
 
   const list = document.createElement("ol");
-  topRocks.forEach((key) => {
+
+  topRocks.forEach((key, index) => {
     const data = collection[key];
-    if (!data) return; // skip if rock no longer exists
+    if (!data) return;
     const item = document.createElement("li");
     item.textContent = `${key} (${data.rarity}) — ${data.count}`;
+
+    if (editFavoritesMode) {
+      const upBtn = document.createElement("button");
+      upBtn.textContent = "↑";
+      upBtn.classList.add("reorder-btn");
+      upBtn.disabled = index === 0;
+      upBtn.addEventListener("click", () => moveFavorite(index, -1));
+
+      const downBtn = document.createElement("button");
+      downBtn.textContent = "↓";
+      downBtn.classList.add("reorder-btn");
+      downBtn.disabled = index === topRocks.length - 1;
+      downBtn.addEventListener("click", () => moveFavorite(index, 1));
+
+      item.appendChild(upBtn);
+      item.appendChild(downBtn);
+    }
+
     list.appendChild(item);
   });
 
   topDiv.appendChild(list);
 }
 
-// Toggle Edit Favorites mode
+// Reordering function
+function moveFavorite(index, direction) {
+  const newIndex = index + direction;
+  if (newIndex < 0 || newIndex >= topRocks.length) return;
+  [topRocks[index], topRocks[newIndex]] = [topRocks[newIndex], topRocks[index]];
+  saveTopRocks();
+  updateTopRocks();
+}
+
+// Toggle Edit mode
 const editBtn = document.getElementById("editFavoritesBtn");
 editBtn.addEventListener("click", () => {
   editFavoritesMode = !editFavoritesMode;
   editBtn.classList.toggle("active", editFavoritesMode);
   editBtn.textContent = editFavoritesMode ? "Done" : "Edit Favorites";
   updateCollectionDisplay();
+  updateTopRocks();
 });
 
 // Init
