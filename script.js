@@ -38,7 +38,7 @@ const ROCKS = [
   { name: "Breeze Mark", rarity: "Common" },
   { name: "Dust Mote", rarity: "Common" },
   { name: "Rain Drop", rarity: "Common" },
-  { name:E: "Leaf Trace", rarity: "Common" },
+  { name: "Leaf Trace", rarity: "Common" },
   { name: "Soil Memory", rarity: "Common" },
   { name: "Simple Spark", rarity: "Common" },
   { name: "Warm Hush", rarity: "Common" },
@@ -210,7 +210,7 @@ const ROCKS = [
   { name: "Omega Shard", rarity: "Legendary" },
   { name: "Universe Seed", rarity: "Legendary" },
   { name: "Godtear", rarity: "Legendary" },
-  { name: "The Last Stone", rarity:No: "Legendary" },
+  { name: "The Last Stone", rarity: "Legendary" },
   { name: "Memory of Stars", rarity: "Legendary" },
   { name: "Inevitable", rarity: "Legendary" }
 ];
