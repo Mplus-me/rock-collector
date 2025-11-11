@@ -335,7 +335,7 @@ function updateCollectionDisplay() {
 
 // Update Top Rocks
 function updateTopRocks() {
-  const topDiv = document.getElementById("topRocks");
+  const topDiv = document.getElementById("topRocksList");
   topDiv.innerHTML = "";
 
   if (topRocks.length === 0) {
