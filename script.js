@@ -335,11 +335,11 @@ function updateCollectionDisplay() {
 
 // Update Top Rocks
 function updateTopRocks() {
-  const topDiv = document.getElementById("topRocksList");
-  topDiv.innerHTML = "";
+  const topList = document.getElementById("topRocksList");
+  topList.innerHTML = "";
 
   if (topRocks.length === 0) {
-    topDiv.innerHTML = "<p>No favorites selected yet.</p>";
+    topList.innerHTML = "<p>No favorites selected yet.</p>";
     return;
   }
 
@@ -371,7 +371,7 @@ function updateTopRocks() {
     list.appendChild(item);
   });
 
-  topDiv.appendChild(list);
+  topList.appendChild(list);
 }
 
 // Reordering function
