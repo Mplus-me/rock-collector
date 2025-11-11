@@ -130,3 +130,20 @@ ul, ol {
   text-align: left;
   margin: 0;
 }
+
+li.editable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+li.selected {
+  background-color: #d4f0f0;
+  border-radius: 6px;
+}
+#editFavoritesBtn.active {
+  background-color: #a5d6a7;
+}
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
