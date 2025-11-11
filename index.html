@@ -9,18 +9,26 @@
 <body>
   <h1>Rock Collector</h1>
   <button id="collectBtn">Collect Rock</button>
-  
+
   <div id="game-layout">
-    <section>
-      <div id="topRocks">
-        <div class="top-header">
-          <h3>Top Rocks</h3>
-          <button id="editFavoritesBtn">Edit Favorites</button>
-      </div></div>
+    <!-- Top Rocks -->
+    <section id="topRocks" class="rock-panel">
+      <div class="top-header">
+        <h3>Top Rocks</h3>
+        <button id="editFavoritesBtn">Edit Favorites</button>
+      </div>
+      <div class="scroll-area" id="topRocksList"></div>
     </section>
 
-    <div id="collection"></div>
+    <!-- Collection -->
+    <section id="collection" class="rock-panel">
+      <div class="top-header">
+        <h3>Your Collection</h3>
+      </div>
+      <div class="scroll-area" id="collectionList"></div>
+    </section>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
